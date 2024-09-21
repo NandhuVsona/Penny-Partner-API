@@ -6,8 +6,10 @@ const morgan = require("morgan");
 const AppError = require("./utils/appError.js");
 const globalErrorHandler = require("./controllers/errorController.js");
 const googleStrategy = require("passport-google-oauth2");
+const compression = require("compression");
 
 //MIDDLEWARES
+app.use(compression());
 app.use(express.static(path.join(__dirname, "..", "frontend")));
 app.use(morgan("dev"));
 app.use(express.json()); // To parse JSON request bodies
@@ -16,7 +18,7 @@ app.use(express.urlencoded({ extended: true })); // To parse URL-encoded data
 app.use("/api/v1/users", userRoutes);
 
 app.get("/auth", (req, res) => {
-  res.sendFile(path.join(__dirname, "..","frontend", "auth.html"));
+  res.sendFile(path.join(__dirname, "..", "frontend", "auth.html"));
 });
 
 app.all("*", (req, res, next) => {
