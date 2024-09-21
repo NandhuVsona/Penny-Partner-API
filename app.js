@@ -7,8 +7,10 @@ const AppError = require("./utils/appError.js");
 const globalErrorHandler = require("./controllers/errorController.js");
 const googleStrategy = require("passport-google-oauth2");
 const compression = require("compression");
+const cors = require("cors");
 
 //MIDDLEWARES
+app.use(cors());
 app.use(compression());
 app.use(express.static(path.join(__dirname, "..", "frontend")));
 app.use(morgan("dev"));
