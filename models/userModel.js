@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
-const buildInData = require("../data/defaultCategories.js");
+
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -25,10 +25,6 @@ const userSchema = new mongoose.Schema({
   currency: {
     type: String,
     default: "₹",
-  },
-  categories: {
-    type: Array,
-    default: buildInData.defaultCategories,
   },
 
   createdAt: {

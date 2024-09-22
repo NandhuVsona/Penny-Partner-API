@@ -3,6 +3,7 @@ const User = require("../models/userModel");
 const catchAsync = require("../utils/catchAsync.js");
 const AppError = require("../utils/appError.js");
 const jwt = require("jsonwebtoken");
+const { createDefaultData } = require("../utils/defaultData.js");
 
 //--------------------------------------
 
@@ -40,6 +41,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     newUser,
     token,
   });
+  createDefaultData(newUser._id);
 });
 
 //-------------------- LOGIN ----------------------------
