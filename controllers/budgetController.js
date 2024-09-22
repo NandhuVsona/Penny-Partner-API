@@ -9,7 +9,7 @@ exports.getBudgets = catchAsync(async (req, res, next) => {
     month: "September 2024",
   }).populate("categoryId");
 
-  const userCategoreis = await Categories.find({ userId });
+  const userCategoreis = await Categories.find({ userId ,type:'expense'});
 
   let a = budgets.map((item) => item.categoryId.id);
 
