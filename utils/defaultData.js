@@ -1,13 +1,18 @@
-
+const { defaultAccounts } = require("../data/defaultAccounts");
 const { defaultCategories } = require("../data/defaultCategories");
+const { Accounts } = require("../models/accountModel");
 const { Categories } = require("../models/categoryModel");
 
 exports.createDefaultData = async (userId) => {
-  let updateUserId = defaultCategories.map((item) => {
+  let updateUserIdToCategories = defaultCategories.map((item) => {
     item.userId = userId;
     return item;
   });
-  const categories = await Categories.insertMany(updateUserId);
- 
-};
 
+  let updateUserIdToAccounts = defaultAccounts.map((item) => {
+    item.userId = userId;
+    return item;
+  });
+  await Categories.insertMany(updateUserIdToCategories);
+  await Accounts.insertMany(updateUserIdToAccounts);
+};
