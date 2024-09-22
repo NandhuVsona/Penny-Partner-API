@@ -3,14 +3,17 @@ const User = require("../models/userModel");
 const catchAsync = require("../utils/catchAsync");
 
 exports.getAllCategories = catchAsync(async (req, res, next) => {
+
   let categories = await Categories.find({ userId: req.params.id });
 
   if (!categories) {
     return next(new AppError("Categories not found", 404));
   }
+  
 
   res.status(200).json({
     status: "success",
+   
     result: categories.length,
     data: categories,
   });
@@ -27,7 +30,6 @@ exports.createCategory = catchAsync(async (req, res, next) => {
   // Respond with the newly created category
   res.status(201).json({
     status: "success",
-    result: newCategory.length,
     data: newCategory,
   });
 });
