@@ -17,6 +17,7 @@ const {
   deleteCategory,
   getAllCategories,
 } = require("../controllers/categoryController");
+const { getBudgets, setBudget, updateBudget, deleteBudget } = require("../controllers/budgetController");
 const router = express.Router();
 
 //MIDDLEWARE
@@ -37,5 +38,13 @@ router
   .post(createCategory)
   .patch(updateCategory)
   .delete(deleteCategory);
+
+//BUDGET ROUTES
+router
+  .route("/budgets/:id")
+  .get(getBudgets)
+  .post(setBudget)
+  .patch(updateBudget)
+  .delete(deleteBudget);
 
 module.exports = router;
