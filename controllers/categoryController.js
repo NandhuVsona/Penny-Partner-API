@@ -1,6 +1,7 @@
 const { Categories } = require("../models/categoryModel");
 const User = require("../models/userModel");
 const catchAsync = require("../utils/catchAsync");
+const { Accounts } = require("../models/accountModel");
 
 exports.getAllCategories = catchAsync(async (req, res, next) => {
   let categories = await Categories.find({ userId: req.params.id });
@@ -46,5 +47,31 @@ exports.deleteCategory = catchAsync(async (req, res, next) => {
   const category = await Categories.findByIdAndDelete(req.params.id);
   res.status(204).json({
     status: "success",
+  });
+});
+
+//for income expense and account
+exports.getAccountsAndCategories = catchAsync(async (req, res, next) => {
+  let categories = await Categories.find({ userId: req.params.id });
+  let accounts = await Accounts.find({ userId: req.params.id });
+
+  if (!categories) {
+    return next(new AppError("Categories not found", 404));
+  }
+
+  const categorized = categories.reduce(
+    (acc, item) => {
+      if (item.type === "income") acc.income.push(item);
+      if (item.type === "expense") acc.expense.push(item);
+      return acc;
+    },
+    { income: [], expense: [] }
+  );
+
+  res.status(200).json({
+    status: "success",
+    incomeCategories: categorized.income,
+    expenseCategories: categorized.expense,
+    accounts,
   });
 });
