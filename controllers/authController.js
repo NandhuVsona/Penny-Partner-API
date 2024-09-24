@@ -70,19 +70,19 @@ exports.logIn = catchAsync(async (req, res, next) => {
 
 exports.product = catchAsync(async (req, res, next) => {
   //  1) Getting token and check of it's there
-  let token;
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
-    token = req.headers.authorization.split(" ")[1];
-    console.log(token);
-  }
-  if (!token) {
-    return next(
-      new AppError("You are not logged in! Please log in to get access", 401)
-    );
-  }
+  // let token;
+  // if (
+  //   req.headers.authorization &&
+  //   req.headers.authorization.startsWith("Bearer")
+  // ) {
+  //   token = req.headers.authorization.split(" ")[1];
+  //   console.log(token);
+  // }
+  // if (!token) {
+  //   return next(
+  //     new AppError("You are not logged in! Please log in to get access", 401)
+  //   );
+  // }
   // 2) Verification token
   // 3) Check if user still exists
   // 4) Check if user changed password after the token was issued
