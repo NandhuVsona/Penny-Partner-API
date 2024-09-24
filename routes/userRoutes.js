@@ -1,5 +1,5 @@
 const express = require("express");
-const { signup, checkId, logIn } = require("../controllers/authController");
+const { signup, checkId, logIn, product } = require("../controllers/authController");
 const {
   getall,
   getUser,
@@ -27,7 +27,7 @@ const {
 const router = express.Router();
 
 //MIDDLEWARE
-router.route("/accounts/:id").get(getAllAccounts).post(createAccount); //Here id is user id
+router.route("/accounts/:id").get(product,getAllAccounts).post(createAccount); //Here id is user id
 router.route("/accounts/:id").patch(updateAccount).delete(deleteAccount); //Here id is account id
 
 // router.param("id", checkId);

@@ -16,6 +16,10 @@ app.use(express.static(path.join(__dirname, "..", "frontend")));
 app.use(morgan("dev"));
 app.use(express.json()); // To parse JSON request bodies
 app.use(express.urlencoded({ extended: true })); // To parse URL-encoded data
+app.use((req,res,next)=>{
+  console.log(req.headers)
+  next()
+})
 
 app.use("/api/v1/users", userRoutes);
 
