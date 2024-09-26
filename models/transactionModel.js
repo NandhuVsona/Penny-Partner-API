@@ -1,48 +1,46 @@
 const mongoose = require("mongoose");
 const { Accounts } = require("./accountModel");
+const { Categories } = require("./categoryModel"); // Assuming you have a Categories model
 
-const trasnsctionSchema = new mongoose.Schema({
+const transactionSchema = new mongoose.Schema({
   month: {
     type: String,
     required: true,
   },
-  data: [
-    {
-      date: {
-        type: String,
-        required: true,
-      },
-      // trasnsctions: [
-      //   {
-      //     id: "5",
-      //     category: {
-      //       name: {
-      //         type: String,
-      //         required: true,
-      //       },
-      //       icon: "icons/Income-expense/books.jpg",
-      //       type: {
-      //         type: String,
-      //         enum: ["income", "expense", "transfer"],
-      //       },
-      //     },
-      //     account: Accounts,
-      //     amount: {
-      //       type: Number,
-      //       required: true,
-      //     },
-      //     date: "2024-08-10",
-      //     description: {
-      //       type: String,
-      //       default: "No notes",
-      //     },
-      //   },
-      // ],
-    },
-  ],
+
+  date: {
+    type: String,
+    required: true,
+  },
+
+  category: {
+    type: mongoose.Types.ObjectId,
+    ref: "Categories", // Reference to Category model
+    required: true,
+  },
+  account: {
+    type: mongoose.Types.ObjectId,
+    ref: "Accounts", // Reference to Accounts model
+    required: true,
+  },
+  amount: {
+    type: Number,
+    required: true,
+  },
+  //   date: {
+  //     type: Date, // Change to Date type for proper date handling
+  //     required: true,
+  //   },
+  description: {
+    type: String,
+    default: "No notes",
+  },
+
   userId: {
     type: mongoose.Types.ObjectId,
     ref: "User",
+    required: true,
   },
 });
-exports.Trasnsctions = mongoose.model("Transactions", trasnsctionSchema);
+
+exports.Transactions = mongoose.model("Transactions", transactionSchema);

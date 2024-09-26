@@ -1,12 +1,82 @@
-const { Trasnsctions } = require("../models/transactionModel");
+const { Transactions } = require("../models/transactionModel");
+const mongoose = require("mongoose");
 const catchAsync = require("../utils/catchAsync");
 
-exports.createTransaction = catchAsync(async (req,res,next)=>{
-    const newTransaction = await Trasnsctions.create({
-        month:req.body.month,
-        data:[{
-            date:req.body.date
-        }],
-        userId:req.body.userId,
-    })
-})
+exports.getAllTransactions = catchAsync(async (req, res, next) => {
+  const date = new Date();
+  const options = { month: "long", year: "numeric" };
+  const currentMonthYear = date.toLocaleDateString("en-US", options);
+
+  const allTransaction = await Transactions.aggregate([
+    {
+      $match: {
+        userId: new mongoose.Types.ObjectId(req.params.id),
+        month: currentMonthYear,
+      },
+    },
+    {
+      $lookup: {
+        from: "categories", // The collection name for categories
+        localField: "category", // Field from the Transactions collection
+        foreignField: "_id", // Field from the Categories collection
+        as: "categoryDetails", // The name of the field to store the joined category
+      },
+    },
+    {
+      $lookup: {
+        from: "accounts", // The collection name for accounts
+        localField: "account", // Field from the Transactions collection
+        foreignField: "_id", // Field from the Accounts collection
+        as: "accountDetails", // The name of the field to store the joined account
+      },
+    },
+    {
+      $group: {
+        _id: "$date", // Group by `date`
+        transactions: {
+          $push: {
+            _id: "$_id",
+            category: "$categoryDetails",
+            account: "$accountDetails",
+            amount: "$amount",
+            description: "$description",
+            month: "$month",
+            userId: "$userId",
+          },
+        },
+      },
+    },
+  ]);
+
+  res.status(200).json({
+    status: "success",
+    data: allTransaction,
+  });
+});
+exports.createTransaction = catchAsync(async (req, res, next) => {
+  let newTransaction = await Transactions.create(req.body);
+  // const date = new Date();
+
+  // const options = { month: "long", year: "numeric" };
+  // const currentMonthYear = date.toLocaleDateString("en-US", options);
+
+  res.status(201).json({
+    newTransaction,
+  });
+});
+
+exports.updateTransaction = catchAsync(async (req, res, next) => {
+  let updatedTransaction = await Transactions.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true }
+  );
+  res.status(200).json({
+    updatedTransaction,
+  });
+});
+
+exports.deleteTransaction = catchAsync(async (req, res, next) => {
+  let updatedTransaction = await Transactions.findByIdAndDelete(req.params.id);
+  res.status(204).json({});
+});

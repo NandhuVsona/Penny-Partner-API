@@ -1,5 +1,10 @@
 const express = require("express");
-const { signup, checkId, logIn, product } = require("../controllers/authController");
+const {
+  signup,
+  checkId,
+  logIn,
+  product,
+} = require("../controllers/authController");
 const {
   getall,
   getUser,
@@ -24,10 +29,16 @@ const {
   updateBudget,
   deleteBudget,
 } = require("../controllers/budgetController");
+const {
+  createTransaction,
+  getAllTransactions,
+  updateTransaction,
+  deleteTransaction,
+} = require("../controllers/transactionController");
 const router = express.Router();
 
 //MIDDLEWARE
-router.route("/accounts/:id").get(product,getAllAccounts).post(createAccount); //Here id is user id
+router.route("/accounts/:id").get(product, getAllAccounts).post(createAccount); //Here id is user id
 router.route("/accounts/:id").patch(updateAccount).delete(deleteAccount); //Here id is account id
 
 // router.param("id", checkId);
@@ -52,6 +63,14 @@ router
   .post(setBudget)
   .patch(updateBudget)
   .delete(deleteBudget);
+
+//BUDGET ROUTES
+router
+  .route("/transactions/:id")
+  .get(getAllTransactions)
+  .post(createTransaction)
+  .patch(updateTransaction)
+  .delete(deleteTransaction);
 
 router.get("/data/:id", getAccountsAndCategories);
 module.exports = router;
