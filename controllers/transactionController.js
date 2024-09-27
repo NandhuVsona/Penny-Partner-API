@@ -11,6 +11,7 @@ exports.getAllTransactions = catchAsync(async (req, res, next) => {
         month,
       },
     },
+
     {
       $lookup: {
         from: "categories", // The collection name for categories
@@ -27,6 +28,7 @@ exports.getAllTransactions = catchAsync(async (req, res, next) => {
         as: "accountDetails", // The name of the field to store the joined account
       },
     },
+
     {
       $group: {
         _id: "$date", // Group by `date`
@@ -41,6 +43,11 @@ exports.getAllTransactions = catchAsync(async (req, res, next) => {
             userId: "$userId",
           },
         },
+      },
+    },
+    {
+      $sort: {
+        _id: -1,
       },
     },
   ]);

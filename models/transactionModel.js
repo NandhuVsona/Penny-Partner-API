@@ -41,6 +41,6 @@ const transactionSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-});
+}, { timestamps: true });
 
 exports.Transactions = mongoose.model("Transactions", transactionSchema);
