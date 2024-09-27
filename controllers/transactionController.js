@@ -3,15 +3,12 @@ const mongoose = require("mongoose");
 const catchAsync = require("../utils/catchAsync");
 
 exports.getAllTransactions = catchAsync(async (req, res, next) => {
-  const date = new Date();
-  const options = { month: "long", year: "numeric" };
-  const currentMonthYear = date.toLocaleDateString("en-US", options);
-
+  const { month } = req.query;
   const allTransaction = await Transactions.aggregate([
     {
       $match: {
         userId: new mongoose.Types.ObjectId(req.params.id),
-        month: currentMonthYear,
+        month,
       },
     },
     {
@@ -55,11 +52,6 @@ exports.getAllTransactions = catchAsync(async (req, res, next) => {
 });
 exports.createTransaction = catchAsync(async (req, res, next) => {
   let newTransaction = await Transactions.create(req.body);
-  // const date = new Date();
-
-  // const options = { month: "long", year: "numeric" };
-  // const currentMonthYear = date.toLocaleDateString("en-US", options);
-
   res.status(201).json({
     newTransaction,
   });
