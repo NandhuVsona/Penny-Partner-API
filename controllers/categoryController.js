@@ -2,6 +2,8 @@ const { Categories } = require("../models/categoryModel");
 const User = require("../models/userModel");
 const catchAsync = require("../utils/catchAsync");
 const { Accounts } = require("../models/accountModel");
+const { Transactions } = require("../models/transactionModel");
+const { Budgets } = require("../models/budgetModel");
 
 exports.getAllCategories = catchAsync(async (req, res, next) => {
   let categories = await Categories.find({ userId: req.params.id });
@@ -44,6 +46,15 @@ exports.updateCategory = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteCategory = catchAsync(async (req, res, next) => {
+  let { userId } = req.query;
+  let categoryId = req.params.id;
+
+  const transactions = await Transactions.deleteMany({
+    userId,
+    category: categoryId,
+  });
+
+  const budgeted = await Budgets.deleteMany({ userId, categoryId });
   const category = await Categories.findByIdAndDelete(req.params.id);
   res.status(204).json({
     status: "success",
