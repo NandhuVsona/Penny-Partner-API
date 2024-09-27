@@ -28,6 +28,11 @@ exports.getAllTransactions = catchAsync(async (req, res, next) => {
         as: "accountDetails", // The name of the field to store the joined account
       },
     },
+    {
+      $sort: {
+        createdAt: -1,
+      },
+    },
 
     {
       $group: {
