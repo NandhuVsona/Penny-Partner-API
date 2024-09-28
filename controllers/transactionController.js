@@ -29,6 +29,14 @@ exports.getAllTransactions = catchAsync(async (req, res, next) => {
       },
     },
     {
+      $lookup: {
+        from: "accounts", // The collection name for accounts
+        localField: "toAccount", // Field from the Transactions collection
+        foreignField: "_id", // Field from the Accounts collection
+        as: "toAccount", // The name of the field to store the joined account
+      },
+    },
+    {
       $sort: {
         createdAt: -1,
       },
