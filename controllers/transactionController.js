@@ -46,6 +46,9 @@ exports.getAllTransactions = catchAsync(async (req, res, next) => {
             description: "$description",
             month: "$month",
             userId: "$userId",
+            type:"$type",
+            toAccount:"$toAccount",
+            time:"$time"
           },
         },
       },
