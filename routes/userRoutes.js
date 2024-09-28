@@ -22,6 +22,7 @@ const {
   deleteCategory,
   getAllCategories,
   getAccountsAndCategories,
+  homeUpdate,
 } = require("../controllers/categoryController");
 const {
   getBudgets,
@@ -73,5 +74,5 @@ router
   .delete(deleteTransaction);
 
 router.get("/data/:id", getAccountsAndCategories);
-router.get("/budgets/some/:id", getAccountsAndCategories);
+router.patch("/budgets/some/:id", homeUpdate);
 module.exports = router;
