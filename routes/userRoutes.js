@@ -74,5 +74,5 @@ router
   .delete(deleteTransaction);
 
 router.get("/data/:id", getAccountsAndCategories);
-router.patch("/budgets/some/:id", homeUpdate);
+// router.patch("/budgets/some/:id", homeUpdate);
 module.exports = router;
