@@ -86,3 +86,18 @@ exports.getAccountsAndCategories = catchAsync(async (req, res, next) => {
     accounts,
   });
 });
+
+
+exports.homeUpdate = catchAsync(async (req,res,next)=>{
+  const {categoryId} = req.query;
+  const userId  = req.params.id;
+  let budgeted = await Budgets.findOneAndUpdate(
+    { userId, categoryId },    
+    { $set: req.body.data },    // Update operation (setting new data)
+    { new: true }              
+  );
+  res.status(200).json({
+    status:"success",
+    budgeted
+  })
+})

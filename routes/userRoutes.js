@@ -73,4 +73,5 @@ router
   .delete(deleteTransaction);
 
 router.get("/data/:id", getAccountsAndCategories);
+router.get("/budgets/some/:id", getAccountsAndCategories);
 module.exports = router;
