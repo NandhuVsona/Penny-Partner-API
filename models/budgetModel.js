@@ -20,11 +20,11 @@ const budgetSchema = new mongoose.Schema({
     required: true,
     default: 0,
   },
-  remaining: {
-    type: Number,
-    required: true,
-    default:0
-  },
+  // remaining: {
+  //   type: Number,
+  //   required: true,
+  //   default: 0,
+  // },
 
   userId: {
     type: mongoose.Types.ObjectId,
@@ -32,5 +32,13 @@ const budgetSchema = new mongoose.Schema({
     required: true,
   },
 });
+
+budgetSchema.virtual("remaining").get(function () {
+  return this.budget - this.spend;
+});
+
+// Ensure virtuals are included when converting to JSON or Object
+budgetSchema.set("toJSON", { virtuals: true });
+budgetSchema.set("toObject", { virtuals: true });
 
 exports.Budgets = mongoose.model("Budgets", budgetSchema);

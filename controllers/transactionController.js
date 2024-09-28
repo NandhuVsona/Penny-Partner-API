@@ -54,7 +54,7 @@ exports.getAllTransactions = catchAsync(async (req, res, next) => {
       $sort: {
         _id: -1,
       },
-    },
+    }, 
   ]);
 
   res.status(200).json({
