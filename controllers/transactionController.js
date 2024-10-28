@@ -1,6 +1,7 @@
 const { Transactions } = require("../models/transactionModel");
 const mongoose = require("mongoose");
 const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/appError");
 
 exports.getAllTransactions = catchAsync(async (req, res, next) => {
   const { month } = req.query;
@@ -86,6 +87,9 @@ exports.updateTransaction = catchAsync(async (req, res, next) => {
     req.body,
     { new: true }
   );
+  if(!updatedTransaction){
+    return next(new AppError("Invalid ID",404))
+  }
   res.status(200).json({
     updatedTransaction,
   });

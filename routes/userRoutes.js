@@ -4,11 +4,16 @@ const {
   checkId,
   logIn,
   product,
+  forgotPassword,
+  resetPassword,
+  updatePassword,
 } = require("../controllers/authController");
 const {
   getall,
   getUser,
   deleteUser,
+  updateMe,
+  deleteMe,
 } = require("../controllers/userController");
 const {
   getAllAccounts,
@@ -47,6 +52,13 @@ router.post("/signup", signup);
 router.post("/login", logIn);
 router.get("/users", getall);
 
+//FORGOT PASSWORD
+router.post("/forgotPassword", forgotPassword);
+router.patch("/resetPassword/:token", resetPassword);
+router.patch("/updateMyPassword", product, updatePassword);
+router.patch("/updateMe", product, updateMe);
+router.delete("/deleteMe", product, deleteMe);
+
 router.route("/:id").get(getUser).delete(deleteUser);
 
 //CATEGORY ROUTES
@@ -65,7 +77,7 @@ router
   .patch(updateBudget)
   .delete(deleteBudget);
 
-//BUDGET ROUTES
+//TRANSACTIONS ROUTES
 router
   .route("/transactions/:id")
   .get(getAllTransactions)

@@ -20,11 +20,6 @@ const budgetSchema = new mongoose.Schema({
     required: true,
     default: 0,
   },
-  // remaining: {
-  //   type: Number,
-  //   required: true,
-  //   default: 0,
-  // },
 
   userId: {
     type: mongoose.Types.ObjectId,
