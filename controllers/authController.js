@@ -7,19 +7,24 @@ const jwt = require("jsonwebtoken");
 const { createDefaultData } = require("../utils/defaultData.js");
 const { promisify } = require("util");
 const sendEmail = require("../utils/email.js");
+const path = require("path");
 
 //--------------------------------------
 
 const signToken = (id) => {
-  const token = jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN,
-  });
-  return token;
+  try {
+    const token = jwt.sign({ id }, process.env.JWT_SECRET, {
+      expiresIn: "2d",
+    });
+    return token;
+  } catch (e) {
+    console.log(e.message);
+  }
 };
 
 const createSendToken = (user, statusCode, res) => {
+  
   //JWT
-
   const token = signToken(user._id);
   const cookieOptions = {
     expires: new Date(
@@ -89,6 +94,8 @@ exports.product = catchAsync(async (req, res, next) => {
     req.headers.authorization.startsWith("Bearer")
   ) {
     token = req.headers.authorization.split(" ")[1];
+  } else if (req.cookies.jwt) {
+    token = req.cookies.jwt;
   }
 
   if (!token) {

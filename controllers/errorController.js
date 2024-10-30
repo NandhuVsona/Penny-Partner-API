@@ -1,10 +1,11 @@
 const sendErrorDev = (err, res) => {
-  return res.status(err.statusCode).json({
-    status: err.status,
-    error: err,
-    message: err.message,
-    stack: err.stack,
-  });
+  res.send(err.message+"<a href='/auth'>Login</a>")
+  // return res.status(err.statusCode).json({
+  //   status: err.status,
+  //   error: err,
+  //   message: err.message,
+  //   stack: err.stack,
+  // });
 };
 
 const sendErrorPro = (err, res) => {
